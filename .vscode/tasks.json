@@ -7,6 +7,6 @@
     ],
     "tasks": [{
         "isBuildCommand": true,
-        "taskName": "default"
+        "taskName": "tsc"
     }]
 }
