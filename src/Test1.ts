@@ -5,3 +5,5 @@ export class Test {
         alert("Hello World");
     }
 }
+
+// not sure why this is not compiled?
