@@ -1,21 +1,22 @@
 {
-  "name": "gulptest",
-  "version": "1.0.0",
-  "description": "Test of a Gulp project",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "test"
-  ],
-  "author": "Howard Richards",
-  "license": "ISC",
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-jasmine": "^2.2.1",
-    "gulp-nuget-pack": "0.0.6",
-    "gulp-typescript": "^2.10.0"
-  }
+    "name": "gulptest",
+    "version": "1.0.0",
+    "description": "Test of a Gulp project",
+    "main": "index.js",
+    "scripts": {
+        "i": "npm i",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "test"
+    ],
+    "author": "Howard Richards",
+    "license": "ISC",
+    "devDependencies": {
+        "gulp": "^3.9.0",
+        "gulp-concat": "^2.6.0",
+        "gulp-jasmine": "^2.2.1",
+        "gulp-nuget-pack": "0.0.6",
+        "gulp-typescript": "^2.10.0"
+    }
 }
