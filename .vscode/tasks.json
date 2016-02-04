@@ -7,10 +7,6 @@
     ],
     "tasks": [{
         "isBuildCommand": true,
-        "taskName": "compile"
-    },
-    {
-        "isBuildCommand": true,
-        "taskName": "compile:tests"
+        "taskName": "default"
     }]
 }

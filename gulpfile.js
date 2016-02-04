@@ -1,47 +1,68 @@
 var gulp = require('gulp');
 
-var ts = require('gulp-typescript');
-var concat = require('gulp-concat');
-var nugetpack = require('gulp-nuget-pack');
-var jasmin = require("gulp-jasmine"); //
+var del = require("del"); // cleaner
+var ts = require('gulp-typescript'); // typescript compile
+var concat = require('gulp-concat'); // combine files
+var jasmine = require("gulp-jasmine"); // testing
+var nugetpack = require('gulp-nuget-pack'); // pack up
 
-// typescript compiler
-var tsProject = ts.createProject({
-    declaration: true,
-    noExternalResolve: true,
-    module: "amd",
-    noImplicitAny: true,
-    removeComments: true
-});
+function getTS() {
+    // typescript compiler
+    var tsProject = ts.createProject({
+        declaration: true,
+        noExternalResolve: true,
+        module: "amd",
+        noImplicitAny: true,
+        removeComments: true
+    });
+    return tsProject;
+}
+
+// RUN ALL
+gulp.task("default", ["clean", "compile", "compile:tests", "runTests"], function (cb) {
+    console.log("Gulp Finished");
+    cb();
+})
+
+// Clean up output folders before compile
+gulp.task("clean", function (cb) {
+    return del([
+        'release/**/*',
+        'spec/**/*'
+    ]);
+})
 
 // compile and combine TS output
 gulp.task('compile', function () {
     var tsResult = gulp.src('src/**/*.ts')
-        .pipe(ts(tsProject));
+        .pipe(ts(getTS()));
 
     return tsResult.js
         .pipe(concat("Test.js")) // merge output                    
         .pipe(gulp.dest('release/js'));
 });
 
-// compile test code
+// compile test code into spec/tests.js 
 gulp.task("compile:tests", function () {
     var tsResult = gulp.src('tests/**/*.ts')
-        .pipe(ts(tsProject));
+        .pipe(ts(getTS));
+
     return tsResult.js
-        .pipe(concat("AllTests.js")) // merge all tests
-        .pipe(gulp.dest('release/tests'));
+        .pipe(concat("tests.js")) // merge all tests
+        .pipe(gulp.dest('spec'));
 });
 
 // compile TS if ts files change
-gulp.task('watch', ['compile'], function () {
-    gulp.watch('src/**/*.ts', ['compile']);
+gulp.task('watch', ['default'], function () {
+    gulp.watch('src/**/*.ts', ['default']);
 });
 
 // run jasmin unit tests?
-// -- need to separate test code from source, compile both to separate folders
-// can look at how others do this
-
+gulp.task('runTests', function () {
+    // gulp-jasmine works on filepaths so you can't have any plugins before it 
+    return gulp.src('spec/tests.js')
+        .pipe(jasmine());
+});
 
 gulp.task('nuget-pack', function (callback) {
     nugetpack({
