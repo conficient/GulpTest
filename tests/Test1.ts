@@ -1,4 +1,14 @@
 
-var x= 0;
+var describe:any; //:(name:string,test:():void):void;
+var it: any;
+var expect: any;
 
-console.error("Failed");
+describe("A suite", function() {
+  it("contains spec with an expectation", function() {
+    expect(true).toBe(true);
+  });
+
+  it("test failure", function() {
+    expect(true).toBe(false);
+  });
+});
