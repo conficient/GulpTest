@@ -1,9 +1,14 @@
-///<reference path="../typings/jasmine/jasmine.d.ts"/>
+/// <reference path="../typings/tsd.d.ts" />
 
-import * as jasmine from "../node_modules/jasmine/lib/jasmine";
+/* jslint node: true */
+/* global describe, it, expect */
 
+"use strict";
 
-describe("A suite", () => {
+/**
+ * Basic tests (not currently referencing the source)
+ */
+describe("test 1", () => {
     it("contains spec with an expectation", () => {
         expect(true).toBe(true);
     });
@@ -11,5 +16,10 @@ describe("A suite", () => {
     it("test failure", function() {
         expect(true).toBe(false);
     });
+    
+    // it("greeter returns hello world", ()=> {
+    //     var g = new Greeter();
+    //     var text =g.SayHello(); 
+    //     expect(text).toBe("Hello World");
+    // });
 });
-

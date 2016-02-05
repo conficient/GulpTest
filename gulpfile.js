@@ -38,16 +38,19 @@ gulp.task('compile', function () {
     var tsResult = gulp.src('src/**/*.ts')
         .pipe(ts(getTS()));
 
-    return tsResult.js
+    var r = tsResult.js
         .pipe(concat("Test.js")) // merge output                    
         .pipe(gulp.dest('release/js'));
+
+    console.log("compile end");
+    return r;
 });
 
 // compile test code into spec/tests.js 
-gulp.task("compile:tests", function () {
-    console.log("compile:tests start");
+gulp.task("compileTests", function () {
     // use non-AMD compiler
     var tsProject = ts.createProject({
+        module: "amd",
         declaration: true,
         noExternalResolve: true,
         noImplicitAny: true,
@@ -70,10 +73,14 @@ gulp.task('watch', ['default'], function () {
 gulp.task('runTests', function () {
     console.log("runTests start");
     // gulp-jasmine works on filepaths so you can't have any plugins before it 
-    return gulp.src('spec/tests.js')
+    var r = gulp.src('spec/tests.js')
         .pipe(jasmine());
+
+    console.log("runTests end");
+    return r;
 });
 
+/*
 gulp.task('nuget-pack', function (callback) {
     nugetpack({
         id: "MyPackage",
@@ -90,3 +97,4 @@ gulp.task('nuget-pack', function (callback) {
         callback
         );
 });
+*/
