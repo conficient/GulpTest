@@ -19,7 +19,7 @@ function getTS() {
 }
 
 // RUN ALL
-gulp.task("default", ["clean", "compile", "compile:tests", "runTests"], function (cb) {
+gulp.task("default", ["clean", "compileSrc", "compileTests", "runTests"], function (cb) {
     console.log("Gulp Finished");
     cb();
 })
@@ -33,34 +33,22 @@ gulp.task("clean", function (cb) {
 })
 
 // compile and combine TS output
-gulp.task('compile', function () {
-    console.log("compile start");
+gulp.task('compileSrc', function () {
     var tsResult = gulp.src('src/**/*.ts')
         .pipe(ts(getTS()));
 
-    var r = tsResult.js
+    return tsResult.js
         .pipe(concat("Test.js")) // merge output                    
         .pipe(gulp.dest('release/js'));
-
-    console.log("compile end");
-    return r;
 });
 
 // compile test code into spec/tests.js 
 gulp.task("compileTests", function () {
-    // use non-AMD compiler
-    var tsProject = ts.createProject({
-        module: "amd",
-        declaration: true,
-        noExternalResolve: true,
-        noImplicitAny: true,
-        removeComments: true
-    });
     var tsResult = gulp.src('tests/**/*.ts')
-        .pipe(ts(tsProject));
+        .pipe(ts(getTS()));
 
     return tsResult.js
-        .pipe(concat("tests.js")) // merge all tests
+        .pipe(concat("alltests.js")) // merge all tests
         .pipe(gulp.dest('spec'));
 });
 
@@ -71,13 +59,9 @@ gulp.task('watch', ['default'], function () {
 
 // run jasmin unit tests?
 gulp.task('runTests', function () {
-    console.log("runTests start");
     // gulp-jasmine works on filepaths so you can't have any plugins before it 
-    var r = gulp.src('spec/tests.js')
+    return gulp.src('spec/alltests.js')
         .pipe(jasmine());
-
-    console.log("runTests end");
-    return r;
 });
 
 /*
