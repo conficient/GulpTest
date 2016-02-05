@@ -34,6 +34,7 @@ gulp.task("clean", function (cb) {
 
 // compile and combine TS output
 gulp.task('compile', function () {
+    console.log("compile start");
     var tsResult = gulp.src('src/**/*.ts')
         .pipe(ts(getTS()));
 
@@ -44,8 +45,16 @@ gulp.task('compile', function () {
 
 // compile test code into spec/tests.js 
 gulp.task("compile:tests", function () {
+    console.log("compile:tests start");
+    // use non-AMD compiler
+    var tsProject = ts.createProject({
+        declaration: true,
+        noExternalResolve: true,
+        noImplicitAny: true,
+        removeComments: true
+    });
     var tsResult = gulp.src('tests/**/*.ts')
-        .pipe(ts(getTS));
+        .pipe(ts(tsProject));
 
     return tsResult.js
         .pipe(concat("tests.js")) // merge all tests
@@ -59,6 +68,7 @@ gulp.task('watch', ['default'], function () {
 
 // run jasmin unit tests?
 gulp.task('runTests', function () {
+    console.log("runTests start");
     // gulp-jasmine works on filepaths so you can't have any plugins before it 
     return gulp.src('spec/tests.js')
         .pipe(jasmine());

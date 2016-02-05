@@ -1,14 +1,15 @@
+///<reference path="../typings/jasmine/jasmine.d.ts"/>
 
-var describe:any; //:(name:string,test:():void):void;
-var it: any;
-var expect: any;
+import * as jasmine from "../node_modules/jasmine/lib/jasmine";
 
-describe("A suite", function() {
-  it("contains spec with an expectation", function() {
-    expect(true).toBe(true);
-  });
 
-  it("test failure", function() {
-    expect(true).toBe(false);
-  });
+describe("A suite", () => {
+    it("contains spec with an expectation", () => {
+        expect(true).toBe(true);
+    });
+
+    it("test failure", function() {
+        expect(true).toBe(false);
+    });
 });
+
